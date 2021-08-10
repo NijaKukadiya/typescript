@@ -40,14 +40,14 @@ export class RegisterPage extends Component<RegisterPageProps, RegisterPageState
             }
         });
     }
-    handleSubmit = (event: any) => {
-        event.preventDefault();
-        this.setState({ submitted: true });
-        const { user } = this.state;
-        if (user?.firstName && user?.lastName && user?.userName && user?.password) {
-            this.props.register(user);
-        }
-    }
+    // handleSubmit = (event: any) => {
+    //     event.preventDefault();
+    //     this.setState({ submitted: true });
+    //     const { user } = this.state;
+    //     if (user?.firstName && user?.lastName && user?.userName && user?.password) {
+    //         this.props.register(user);
+    //     }
+    // }
     render() {
         const { registering } = this.props;
         const { user, submitted } = this.state;
@@ -56,7 +56,7 @@ export class RegisterPage extends Component<RegisterPageProps, RegisterPageState
                 <div>
                     <h1>Registartion</h1>
                     <div>
-                        <form className="ui-form" onSubmit={this.handleSubmit}>
+                        <form className="ui-form">
                             <div className='firstname'>
                                 <label htmlFor="firstname">First Name</label>
                                 <input type='text' name='firstName' placeholder="First Name" value={user?.firstName} onChange={this.handleChange} />
