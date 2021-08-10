@@ -19,6 +19,7 @@ export default function Register() {
         const content = await response.json();
         setState({ ...state, loading: false });
       }
+      
     return (
         <div>
             <div>
