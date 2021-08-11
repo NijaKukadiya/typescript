@@ -1,14 +1,14 @@
 import './App.css';
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
 import Register from "./Register";
-// import {LoginPage} from './LoginPage';
+import Login from './Login';
 
 function App() {
   return (
-    <div className="app">
+    <div className="App">
       <Router>
       <Switch>
-          {/* <Route path="/login" component={LoginPage}></Route>  */}
+          <Route path="/login" component={Login}></Route> 
           <Route path="/register" component={Register}></Route>
       </Switch>
       </Router>
