@@ -9,8 +9,8 @@ import {
   import { history } from "../helper";
   import AuthService from "../services/auth-service";
   
-  export const register = (username:string, email:string, password:string) => (dispatch:any) => {
-    return AuthService.register(username, email, password).then(
+  export const register = (email?:string, password?:string) => (dispatch:any) => {
+    return AuthService.register(email, password).then(
       (response) => {
         history.push('/login');
         dispatch({
@@ -46,8 +46,8 @@ import {
     );
   };
   
-  export const login = (username:string, password:string) => (dispatch: any) => {
-    return AuthService.login(username, password).then(
+  export const login = (email?:string, password?:string) => (dispatch: any) => {
+    return AuthService.login(email, password).then(
       (data) => {
         dispatch({
           type: LOGIN_SUCCESS,
