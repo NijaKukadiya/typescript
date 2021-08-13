@@ -1,19 +1,40 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { register } from "../action/auth";
 import { Link } from "react-router-dom";
 
-const Register = () => {
+
+// const required = (value:string) => {
+//     if (!value) {
+//       return (
+//         <div className="alert alert-danger" role="alert">
+//           This field is required!
+//         </div>
+//       );
+//     }
+//   };
+//   const validEmail = (value:string) => {
+//     if (!isEmail(value)) {
+//       return (
+//         <div className="alert alert-danger" role="alert">
+//           This is not a valid email.
+//         </div>
+//       );
+//     }
+//   };
+
+  const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmpassword, setConfirmpassword] = useState("");
+    // const [confirmpassword, setConfirmpassword] = useState("");
     const [successful, setSuccessful] = useState(false);
     const dispatch = useDispatch();
+    const { message } = useSelector((state:any) => state.message);
     
-    const onChangeConfirmpassword = (e: any) => {
-        const confirmpassword = e.target.value;
-        setConfirmpassword(confirmpassword);
-    };
+    // const onChangeConfirmpassword = (e: any) => {
+    //     const confirmpassword = e.target.value;
+    //     setConfirmpassword(confirmpassword);
+    // };
     
     const onChangeEmail = (e: any) => {
         const email = e.target.value;
@@ -30,7 +51,7 @@ const Register = () => {
 
         setSuccessful(false);
 
-        dispatch(register(email, password, confirmpassword))
+        dispatch(register(email, password))
     };
     
     return (
@@ -55,9 +76,10 @@ const Register = () => {
                                     name="password"
                                     value={password}
                                     onChange={onChangePassword}
+                                    // validations={[required, vpassword]}
                                 />
                             </div>
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label>confirm password</label>
                                 <input
                                     type="password"
@@ -65,7 +87,14 @@ const Register = () => {
                                     value={confirmpassword}
                                     onChange={onChangeConfirmpassword}
                                 />
-                            </div>
+                            </div> */}
+                            {message && (
+                                <div className="form-group">
+                                <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
+                                    {message}
+                                </div>
+                                </div>
+                            )}
                             <div className="form-group">
                                 <button>Register</button>
                                 <Link to="/login"> Login</Link>

@@ -1,21 +1,20 @@
 import axios from "axios";
 
 
-const API_URL_REGISTER = "https://rails-to-do-list-narola.herokuapp.com/v1/signup";
-const API_URL_LOGIN = "https://rails-to-do-list-narola.herokuapp.com/v1/login";
+const API_URL_REGISTER = "https://rails-to-do-list-narola.herokuapp.com/v1/";
+const API_URL_LOGIN = "https://rails-to-do-list-narola.herokuapp.com/v1/";
 
-const register = (username: string, email: string, password:string) => {
+const register = (email?: string, password?:string) => {
   return axios.post(API_URL_REGISTER + "signup", {
-    username,
     email,
     password,
   });
 };
 
-const login = (username:string, password:string) => {
+const login = (email?:string, password?:string) => {
   return axios
     .post(API_URL_LOGIN + "login", {
-      username,
+      email,
       password,
     })
     .then((response) => {
