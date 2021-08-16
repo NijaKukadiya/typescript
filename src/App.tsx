@@ -1,23 +1,31 @@
 import './App.css';
 import {Switch, Route, Redirect, Router} from 'react-router-dom';
-import Register from "./component/Register";
-import Login from './component/Login';
+import Register from "./Registration/Register";
+import Login from './Login/Login';
 import { history } from './helper';
-import Home from './component/Home';
+import { HomePage } from './HomePage';
 // import { PrivateRoute } from './helper';
+import { Layout } from 'antd';
 
+const {Content} = Layout;
 
 
 function App() {
   return (
+    
+      
     <div className="App">
       <Router history={history}>
-      <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route exact path="/" component={Home} />
-          <Redirect from ="*" to="/" />
-      </Switch>
+      <Layout>
+          <Content>
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route exact path="/" component={HomePage} />
+              <Redirect from ="*" to="/" />
+            </Switch>
+          </Content>
+        </Layout>
       </Router>
     </div>
   );
