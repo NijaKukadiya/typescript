@@ -53,7 +53,7 @@ import {
           type: LOGIN_SUCCESS,
           payload: { user: data },
         });
-  
+        history.push('/home');
         return Promise.resolve();
       },
       (error) => {
