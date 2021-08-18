@@ -1,84 +1,79 @@
-import {Input,DatePicker,Space,InputNumber,Button,Form} from "antd";
-import { useState } from "react";
-import {  useSelector } from "react-redux";
-import add_data from "../services/auth-service";
-import "../Login/login.css"
+import { Input, DatePicker, Space, InputNumber, Button, Form } from "antd";
+import { useState} from "react";
+import moment from 'moment';
+
+import { useHistory } from "react-router-dom";
+
+const dateFormat = 'YYYY/MM/DD';
 
 const AddData = () => {
     const [data, setData] = useState("");
-    // const [due_date, setDue_Date] = useState("");
+    const [ due_date, setDue_Date] = useState(moment('yyyy/mm/dd', dateFormat));
     const [priority, setPriority] = useState("");
-    const [date, setDate] = useState(new Date());
-    // const [successful, setSuccessful] = useState(false);
-    // const { message } = useSelector((state: any) => state.message);
 
     const onChangeData = (e: any) => {
         const data = e.target.value;
         setData(data);
     };
-    // const onChangeDue_Date = (e: any) => {
-    //     const due_date = e.target.value;
-    //     setDue_Date(due_date);
-    // };
-    const onChangePriority = (e: any) => {
-        const priority = e.target.value;
-        setPriority(priority);
-    };
-    const handleDateChange = (dateObj: moment.Moment, dateStr: string): void => {
-        setDate(dateObj);
-    }
-    // const onFinish = (values: any) => {
-    //     console.log('Success:', values);
-    //     dispatch(add_data(values.data,values.due_date,values.priority))
-    //   };
-    // const onFinishFailed = (errorInfo: any) => {
-    //     console.log('Failed:', errorInfo);
-    //   };
-    const handleAdd = (e: any) => {
-        e.preventDefault();
-        const store ={data:data ,due_date:due_date,priority:priority}
-        fetch('https://rails-to-do-list-narola.herokuapp.com/v1/todos',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-                'access-token': localStorage.getItem("auth_token") || '',
-            },
-            body:JSON.stringify(store),
-        })
-        .then(response => response.json())
-        .then(data =>{
-            console.log('Success:',data);
-            console.log('token:',data.auth_token);
-        })
-        .catch((error)=>{
-             console.error('Error:',error);
-        });
+    const onChangeDue_Date = (date: any, dateString: any) => {
+        setDue_Date(moment(dateString, dateFormat))
     };
 
-    return(
+    const onChangePriority = (e: any) => {
+        const priority = e;
+        setPriority(priority);
+    };
+    const history = useHistory();
+    const logout = () => {
+        localStorage.removeItem('auth_token');
+        history.push('/login');
+    }
+    const handleAdd = (e: any) => {
+        e.preventDefault();
+        const store = { data, priority, due_date }
+        fetch('https://rails-to-do-list-narola.herokuapp.com/v1/todos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'access-token': localStorage.getItem("auth_token") || '',
+            },
+            body: JSON.stringify(store),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                console.log('token:', data.auth_token);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+    return (
+    <div>
         <Form name="Add Data"
-        wrapperCol={{ span: 4 }}
-        initialValues={{ remember: true }}
-        className="login"
-        /* onFinish={onFinish}
-        onFinishFailed={onFinishFailed} */
+            labelCol={{ span: 9 }}
+            wrapperCol={{ span: 6 }}    
+            initialValues={{ remember: true }}
         >
-        <Form.Item wrapperCol={{ offset: 1, span: 4 }} >
-        <h1>Add New Data</h1>
-            <Input placeholder="data" onChange={onChangeData} value={data}/> 
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 1, span: 4 }}>
-            <Space direction="vertical"> 
-                <DatePicker onChange={handleDateChange} />
-            </Space>
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 1, span: 4 }}>
-            <InputNumber min={1} max={10} defaultValue={3} onChange={onChangePriority} />
-        </Form.Item>
-        <Form.Item  wrapperCol={{ offset: 1, span: 4 }} >
-            <Button type="primary" onClick={handleAdd}>Add Data</Button>
-        </Form.Item>
+            <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
+            <h1>Add New Data</h1>
+                <Input placeholder="data" onChange={onChangeData} value={data} />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 1, span: 6 }}>
+                <Space direction="vertical">
+                    <DatePicker defaultValue={due_date} onChange={onChangeDue_Date} />
+                </Space>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 1, span: 6 }}>
+                <InputNumber min={1} max={50} onChange={onChangePriority} />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
+                <Button type="primary" onClick={handleAdd}>Add Data</Button>&nbsp;&nbsp;
+                <Button type="primary" onClick={logout}> Logout</Button>
+            </Form.Item>
         </Form>
+        </div>
     )
-} 
+}
 export default AddData;
