@@ -2,6 +2,19 @@ import React from 'react'
 import AddData from "./AddData";
 import userService from "../services/user-service";
 import { useState,useEffect} from "react";
+import { useHistory } from "react-router-dom";
+import {Table,Button,Switch,Layout,Typography} from "antd";
+
+
+import {
+    UsergroupAddOutlined,
+    PlusCircleTwoTone,
+  } from '@ant-design/icons';
+
+  
+  const { Header, Content, Footer } = Layout;
+  const { Title } = Typography;
+  
 
 interface postData{
     id: number;
@@ -13,6 +26,7 @@ interface postData{
 
 export default function HomePage() {
     const [posts, setPosts] = useState([]);
+    const history= useHistory(); 
     
     useEffect(() => {
         userService.getAddData().then(
@@ -46,39 +60,66 @@ export default function HomePage() {
             })
     }
 
+
+    const columns = [
+        {
+            key:'1',
+            title:'ID',
+            dataIndex:'id',
+            sorter: (a:any, b:any) => a.id - b.id
+        },
+        {
+            key:'2',
+            title:'Data',
+            dataIndex:'data',
+            sorter: (a:any, b:any) => a.data.localeCompare(b.data)
+        },
+        {
+            key:'3',
+            title:'Date',
+            dataIndex:'due_date',
+            sorter: (a:any, b:any) => a.due_date.localeCompare(b.due_date)
+        },
+        {
+            key:'4',
+            title:'Priority',
+            dataIndex:'priority',
+            sorter: (a:any, b:any) => a.priority - b.priority
+        },
+        {
+            key:'5',
+            title:'Complete',
+            dataIndex:'',
+            render: () => <Switch />
+        },
+        {
+            key:'6',
+            title:'Delete',
+            dataIndex:'id', 
+            render: (id:any) => <Button onClick={() => onDelete(id)}>Delete</Button>,
+        },
+    ]
+    const nextpath = (path: any) => {
+        history.push(path);
+      };
+    
     return (
-        <div>
-            <AddData />
-            <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Date</th>
-                        <th>Priority</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        posts.length !== 0 ?
-                            posts.map((post:postData, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{post.id}</td>
-                                        <td>{post.data}</td>
-                                        <td>{post.due_date}</td>
-                                        <td>{post.priority}</td>
-                                        <button onClick={() => onDelete(post.id)}>Delete</button>
-                                    </tr>
-                                )
-                            })
-                            : 'No data found'
-                    }
-                </tbody>
-            </table>
-            </div>
-        </div>
+    <div>
+        <Layout >
+        <Header style={{ backgroundColor:"#D8D4D5"}} >Home Page
+            <Content style={{ padding: '0 50px' }}>Todos
+            <Title style={{color:'#08c'}}><UsergroupAddOutlined style={{ fontSize: '30px', color: '#08c' }}/> 
+                ToDos List <PlusCircleTwoTone twoToneColor= "#ff0000" style={{ fontSize: '25px' }}  onClick={() => nextpath("/add_data")}/></Title>   
+        
+                <Table
+                    columns={columns}
+                    dataSource={posts}
+                >
+                </Table>
+            </Content>
+        <Footer></Footer>
+        </Header>
+        </Layout>
+    </div>
     )
 }

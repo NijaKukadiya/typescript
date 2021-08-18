@@ -5,27 +5,23 @@ import Login from './Login/Login';
 import { history } from './helper';
 import { HomePage } from './HomePage';
 // import { PrivateRoute } from './helper';
-import { Layout } from 'antd';
-
-const {Content} = Layout;
-
+import {AddData} from "./HomePage";
 
 function App() {
   return (
     
       
-    <div className="App">
+    <div>
       <Router history={history}>
-      <Layout>
-          <Content>
+      
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
+              <Route path="/add_data" component={AddData} />
               <Route exact path="/" component={HomePage} />
               <Redirect from ="*" to="/" />
             </Switch>
-          </Content>
-        </Layout>
+        
       </Router>
     </div>
   );
