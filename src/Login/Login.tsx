@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { login } from "../action/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Layout } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import { Link } from "react-router-dom";
+
+
+const { Content} = Layout;
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -38,6 +41,8 @@ const Login = () => {
       };
     
     return (
+        <Layout>
+        <Content>
         <Form
             name="login"
             labelCol={{ span: 9 }}
@@ -78,6 +83,8 @@ const Login = () => {
                 Or  <Link to ="/register"> Register</Link>
             </Form.Item>
         </Form>
+        </Content>
+        </Layout>
     );
 };
 export default Login;

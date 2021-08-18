@@ -1,15 +1,23 @@
-import { Input, DatePicker, Space, InputNumber, Button, Form } from "antd";
+import { Input, DatePicker, Space, InputNumber, Button, Form,Layout, Modal} from "antd";
 import { useState} from "react";
 import moment from 'moment';
-
 import { useHistory } from "react-router-dom";
 
+const { Content} = Layout;
 const dateFormat = 'YYYY/MM/DD';
 
 const AddData = () => {
     const [data, setData] = useState("");
-    const [ due_date, setDue_Date] = useState(moment('yyyy/mm/dd', dateFormat));
+    const [ due_date, setDue_Date] = useState(moment('2021/02/17', dateFormat));
     const [priority, setPriority] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+      };
+      const handleCancel = () => {
+        setIsModalVisible(false);
+      };
 
     const onChangeData = (e: any) => {
         const data = e.target.value;
@@ -49,12 +57,19 @@ const AddData = () => {
             });
     };
 
+    const nextpath = (path: any) => {
+        history.push(path);
+      };
+
+
     return (
-    <div>
+        <Layout>
+        <Content>
         <Form name="Add Data"
             labelCol={{ span: 9 }}
             wrapperCol={{ span: 6 }}    
             initialValues={{ remember: true }}
+            className="login"
         >
             <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
             <h1>Add New Data</h1>
@@ -69,11 +84,15 @@ const AddData = () => {
                 <InputNumber min={1} max={50} onChange={onChangePriority} />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
-                <Button type="primary" onClick={handleAdd}>Add Data</Button>&nbsp;&nbsp;
+                <Button type="primary" onClick={showModal}>Add Data</Button>&nbsp;&nbsp;
                 <Button type="primary" onClick={logout}> Logout</Button>
             </Form.Item>
         </Form>
-        </div>
-    )
+        <Modal title="Basic Modal" visible={isModalVisible} onOk={() => nextpath("/")} onCancel={handleCancel}>
+        <h2>To do added successfully</h2>
+      </Modal>
+        </Content>
+        </Layout>
+    );
 }
 export default AddData;

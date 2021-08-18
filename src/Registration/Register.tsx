@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../action/auth";
 import { Link } from "react-router-dom";
 // import { Button, Input, Form } from 'antd'
-import { Form, Input, Button} from 'antd';
+import { Form, Input, Button,Layout} from 'antd';
 import "../Login/login.css";
 
+const { Content} = Layout;
 // const required = (value:string) => {
 //     if (!value) {
 //       return (
@@ -65,6 +66,8 @@ const Register = () => {
     
 
     return (
+        <Layout>
+        <Content>
         <Form
         name="login"
         labelCol={{ span: 9 }}
@@ -103,7 +106,9 @@ const Register = () => {
                 &nbsp;&nbsp;
                 Or  <Link to ="/login"> Login </Link>
             </Form.Item>
-    </Form>   
+    </Form> 
+    </Content>
+    </Layout>  
     );
 };
 
