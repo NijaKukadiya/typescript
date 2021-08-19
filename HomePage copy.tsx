@@ -58,76 +58,57 @@ export default function HomePage() {
                 getData();
             })
     }
-    // const columns = [
-    //     {
-    //         key:'1',
-    //         title:'ID',
-    //         dataIndex:'id',
-    //         sorter: true,
-    //         // sorter: () =>  onSort /* (a:any, b:any) => a.id - b.id */
-    //     },
-    //     {
-    //         key:'2',
-    //         title:'Data',
-    //         dataIndex:'data',
-    //         sorter: true,
-    //         // sorter: (a:any, b:any) => a.data.localeCompare(b.data)
-    //     },
-    //     {
-    //         key:'3',
-    //         title:'Date',
-    //         dataIndex:'due_date',
-    //         sorter: true,
-    //         // sorter: (a:any, b:any) => a.due_date.localeCompare(b.due_date)
-    //     },
-    //     {
-    //         key:'4',
-    //         title:'Priority',
-    //         dataIndex:'priority',
-    //         sorter: true,
-    //         // sorter: (a:any, b:any) => a.priority - b.priority
-    //     },
-    //     {
-    //         key:'5',
-    //         title:'Complete',
-    //         dataIndex:'',
-    //         render: () => <Switch />
-    //     },
-    //     {
-    //         key:'6',
-    //         title:'Delete',
-    //         dataIndex:'id', 
-    //         render: (id:any) => <Button onClick={() => onDelete(id)}>Delete</Button>,
-    //     },
-    // ]
+    const onSort = () => {
+        console.log('ertyuio');
+        
+        // userService.SortData()
+        // .then((getData) => {
+        //     setPosts(getData.data.data.todos);
+        // })
+    }
 
     const columns = [
         {
-          title: 'Id',
-          dataIndex: 'id',
-          sorter: true,
-          width: '20%',
+            key:'1',
+            title:'ID',
+            dataIndex:'id',
+            sorter: () =>  onSort /* (a:any, b:any) => a.id - b.id */
         },
         {
             key:'2',
             title:'Data',
             dataIndex:'data',
-            sorter: true,
+            sorter: (a:any, b:any) => a.data.localeCompare(b.data)
         },
-        
-    ];
-
+        {
+            key:'3',
+            title:'Date',
+            dataIndex:'due_date',
+            sorter: (a:any, b:any) => a.due_date.localeCompare(b.due_date)
+        },
+        {
+            key:'4',
+            title:'Priority',
+            dataIndex:'priority',
+            sorter: (a:any, b:any) => a.priority - b.priority
+        },
+        {
+            key:'5',
+            title:'Complete',
+            dataIndex:'',
+            render: () => <Switch />
+        },
+        {
+            key:'6',
+            title:'Delete',
+            dataIndex:'id', 
+            render: (id:any) => <Button onClick={() => onDelete(id)}>Delete</Button>,
+        },
+    ]
     const nextpath = (path: any) => {
         history.push(path);
       };
     
-    const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-        userService.SortData(sorter.field, sorter.order === "ascend" ? 'asc' : 'desc')
-        .then((getData) => {
-            setPosts(getData.data.data.todos);
-        })
-    }
-
     return (
     <div>
         <Layout >
@@ -135,12 +116,13 @@ export default function HomePage() {
             <Content style={{ padding: '0 50px' }}>Todos
             <Title style={{color:'#08c'}}><UsergroupAddOutlined style={{ fontSize: '30px', color: '#08c' }}/> 
                 ToDos List <PlusCircleTwoTone twoToneColor= "#ff0000" style={{ fontSize: '25px' }}  onClick={() => nextpath("/add_data")}/></Title>   
+        
                 <Table
                     columns={columns}
                     dataSource={posts}
-                    onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)}
-                />
-
+                >
+                </Table>
+    
             </Content>
         <Footer></Footer>
         </Header>
