@@ -1,9 +1,9 @@
 import { Input, DatePicker, Space, InputNumber, Button, Form,Layout, Modal} from "antd";
 import { useState} from "react";
 import moment from 'moment';
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 
-const { Content} = Layout;
+const { Header, Content } = Layout;
 const dateFormat = 'YYYY/MM/DD';
 
 const AddData = () => {
@@ -11,6 +11,7 @@ const AddData = () => {
     const [ due_date, setDue_Date] = useState(moment('2021/02/17', dateFormat));
     const [priority, setPriority] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const history = useHistory();
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -31,13 +32,13 @@ const AddData = () => {
         const priority = e;
         setPriority(priority);
     };
-    const history = useHistory();
+   
     const logout = () => {
         localStorage.removeItem('auth_token');
         history.push('/login');
     }
     const handleAdd = (e: any) => {
-        e.preventDefault();
+        // e.preventDefault();
         const store = { data, priority, due_date }
         fetch('https://rails-to-do-list-narola.herokuapp.com/v1/todos', {
             method: 'POST',
@@ -52,9 +53,15 @@ const AddData = () => {
                 console.log('Success:', data);
                 console.log('token:', data.auth_token);
             })
+
+            .then(data => {
+                    showModal();
+            })
+
             .catch((error) => {
                 console.error('Error:', error);
             });
+
     };
 
     const nextpath = (path: any) => {
@@ -64,12 +71,14 @@ const AddData = () => {
 
     return (
         <Layout>
-        <Content>
+        <Header style={{ backgroundColor:"#D8D4D5"}}>
+        <Content> <Link to="/">Todos</Link>
         <Form name="Add Data"
             labelCol={{ span: 9 }}
             wrapperCol={{ span: 6 }}    
             initialValues={{ remember: true }}
             className="login"
+            onFinish={handleAdd}
         >
             <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
             <h1>Add New Data</h1>
@@ -84,14 +93,15 @@ const AddData = () => {
                 <InputNumber min={1} max={50} onChange={onChangePriority} />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 1, span: 6 }} >
-                <Button type="primary" onClick={showModal}>Add Data</Button>&nbsp;&nbsp;
+                <Button type="primary" onClick={handleAdd}>Add Data</Button>&nbsp;&nbsp;
                 <Button type="primary" onClick={logout}> Logout</Button>
             </Form.Item>
         </Form>
         <Modal title="Basic Modal" visible={isModalVisible} onOk={() => nextpath("/")} onCancel={handleCancel}>
-        <h2>To do added successfully</h2>
-      </Modal>
+            <h2 style={{color: "#08c"}}>To do added successfully.....</h2>
+        </Modal>
         </Content>
+        </Header>
         </Layout>
     );
 }
