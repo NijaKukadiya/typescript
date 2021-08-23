@@ -8,9 +8,7 @@ import { HomePage } from './HomePage';
 import {AddData} from "./HomePage";
 
 function App() {
-  return (
-    
-      
+  return (   
     <div>
       <Router history={history}>
       

@@ -2,6 +2,7 @@ import { Input, DatePicker, Space, InputNumber, Button, Form,Layout, Modal} from
 import { useState} from "react";
 import moment from 'moment';
 import { useHistory,Link } from "react-router-dom";
+import CustomeModal from "./CustomModal";
 
 const { Header, Content } = Layout;
 const dateFormat = 'YYYY/MM/DD';
@@ -97,9 +98,13 @@ const AddData = () => {
                 <Button type="primary" onClick={logout}> Logout</Button>
             </Form.Item>
         </Form>
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={() => nextpath("/")} onCancel={handleCancel}>
+        <CustomeModal
+                title="Add the data" visible={isModalVisible} onOk={() => nextpath("/")} onCancel={handleCancel}
+                modalBody={<h2 style={{color: "#08c"}}>To do added successfully.....</h2>}
+            />
+        {/* <Modal >
             <h2 style={{color: "#08c"}}>To do added successfully.....</h2>
-        </Modal>
+        </Modal> */}
         </Content>
         </Header>
         </Layout>
