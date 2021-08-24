@@ -145,9 +145,6 @@ export default function HomePage() {
                 onCancel={handleCancel}
                 modalBody={<h2 style={{color: "#08c"}}> Are You Sure?</h2>}
             />
-            {/* <Modal title="Delete the data" visible={isModalVisible} onOk={() => onDelete(id)} onCancel={handleCancel}>
-                <h2 style={{color: "#08c"}}> Are You Sure ?</h2>
-            </Modal> */}
         <Footer></Footer>
         </Header>
         </Layout>

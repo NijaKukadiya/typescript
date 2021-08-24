@@ -102,9 +102,6 @@ const AddData = () => {
                 title="Add the data" visible={isModalVisible} onOk={() => nextpath("/")} onCancel={handleCancel}
                 modalBody={<h2 style={{color: "#08c"}}>To do added successfully.....</h2>}
             />
-        {/* <Modal >
-            <h2 style={{color: "#08c"}}>To do added successfully.....</h2>
-        </Modal> */}
         </Content>
         </Header>
         </Layout>
